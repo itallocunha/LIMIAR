@@ -4,7 +4,7 @@ import { threads } from "./data";
 const creepyStatus = ["lida", "lida às 04:04", "entregue", "lida por ██████", "digitando..."];
 
 export function ChatApp() {
-  const [sel, setSel] = useState(threads[0].id);
+  const [sel, setSel] = useState(threads[0]!.id);
   const [tick, setTick] = useState(0);
   const thread = threads.find((t) => t.id === sel)!;
 

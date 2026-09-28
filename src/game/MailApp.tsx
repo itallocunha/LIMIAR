@@ -3,7 +3,7 @@ import { AlertTriangle, Paperclip, Mail } from "lucide-react";
 import { emails } from "./data";
 
 export function MailApp() {
-  const [sel, setSel] = useState(emails[0].id);
+  const [sel, setSel] = useState(emails[0]!.id);
   const current = emails.find((e) => e.id === sel)!;
 
   return (

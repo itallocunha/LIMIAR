@@ -29,7 +29,7 @@ function Waveform({ playing }: { playing: boolean }) {
 }
 
 export function EvidenceApp() {
-  const [sel, setSel] = useState(evidence[0].id);
+  const [sel, setSel] = useState(evidence[0]!.id);
   const [playing, setPlaying] = useState(false);
   const item = evidence.find((e) => e.id === sel)!;
 
