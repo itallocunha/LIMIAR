@@ -224,6 +224,8 @@
   background: var(--background); color: var(--foreground); position: relative;
   width: 100%; height: 100dvh; overflow: hidden; letter-spacing: 0;
 }
+.limiar-screen.scanlines::after { opacity: .12; }
+.limiar-screen.vignette::before { opacity: .25; }
 @theme inline { --shadow-window: 0 20px 70px color-mix(in oklab, var(--background) 85%, transparent); }
 body { letter-spacing: 0; }
 .boot-screen { height: 100%; display: flex; flex-direction: column; align-items: center; padding: 32px 40px; }
