@@ -1,5 +1,6 @@
 import { useState, type ReactNode } from "react";
 import { Minus, X, Square } from "lucide-react";
+import { Button } from '@/components/ui/button';
 
 type Props = {
   title: string;
@@ -31,12 +32,14 @@ export function Window({
 
   return (
     <section
-      className="absolute flex flex-col border border-border bg-card/95 shadow-[0_0_0_1px_rgba(0,0,0,0.8),0_20px_60px_rgba(0,0,0,0.9)] backdrop-blur-[1px]"
+      aria-label={title}
+      tabIndex={0}
+      className="system-window absolute flex flex-col border border-border bg-card shadow-window"
       style={style}
       onMouseDown={onFocus}
       onMouseMove={(e) => {
         if (!drag) return;
-        setPos({ x: e.clientX - drag.dx, y: e.clientY - drag.dy });
+        setPos({ x: Math.max(0, e.clientX - drag.dx), y: Math.max(0, e.clientY - drag.dy) });
       }}
       onMouseUp={() => setDrag(null)}
       onMouseLeave={() => setDrag(null)}
@@ -50,27 +53,27 @@ export function Window({
           <span className="truncate text-xs text-muted-foreground">/ {subtitle}</span>
         )}
         <div className="ml-auto flex items-center gap-1">
-          <button
+          <Button variant="ghost" size="icon"
             aria-label="Minimizar"
             className="p-1 text-muted-foreground hover:text-bone"
             onClick={() => setMinimized((m) => !m)}
           >
             <Minus size={12} />
-          </button>
-          <button
+          </Button>
+          <Button variant="ghost" size="icon"
             aria-label="Maximizar"
             className="p-1 text-muted-foreground hover:text-bone"
             onClick={() => setMaximized((m) => !m)}
           >
             <Square size={10} />
-          </button>
-          <button
+          </Button>
+          <Button variant="ghost" size="icon"
             aria-label="Fechar"
             className="p-1 text-muted-foreground hover:text-destructive"
             onClick={onClose}
           >
             <X size={12} />
-          </button>
+          </Button>
         </div>
       </header>
       {!minimized && <div className="min-h-0 flex-1 overflow-hidden">{children}</div>}
