@@ -205,3 +205,67 @@
     animation: glitch-shift 0.25s steps(2) infinite;
   }
 }
+
+/* LIMIAR system palette. Individual cases retain their own scope. */
+.limiar-screen {
+  --background: oklch(0.115 0 0);
+  --foreground: oklch(0.86 0.008 85);
+  --card: oklch(0.16 0 0);
+  --secondary: oklch(0.21 0 0);
+  --muted-foreground: oklch(0.6 0.005 85);
+  --accent: oklch(0.25 0 0);
+  --accent-foreground: var(--foreground);
+  --border: oklch(0.3 0 0);
+  --input: var(--border);
+  --primary: oklch(0.39 0.115 25);
+  --destructive: oklch(0.6 0.13 25);
+  --bone: var(--foreground);
+  --paper-shadow: oklch(0.06 0 0);
+  background: var(--background); color: var(--foreground); position: relative;
+  width: 100%; height: 100dvh; overflow: hidden; letter-spacing: 0;
+}
+@theme inline { --shadow-window: 0 20px 70px color-mix(in oklab, var(--background) 85%, transparent); }
+body { letter-spacing: 0; }
+.boot-screen { height: 100%; display: flex; flex-direction: column; align-items: center; padding: 32px 40px; }
+.boot-top { width: 100%; display: flex; justify-content: space-between; color: var(--muted-foreground); font-size: 14px; }
+.boot-logo { width: min(680px, 80%); object-fit: contain; margin: auto 0 44px; }
+.boot-terminal { width: min(560px, 100%); font-size: 17px; }
+.boot-progress { height: 3px; background: var(--border); margin-top: 12px; }
+.boot-progress > div { background: var(--foreground); height: 100%; transition: width .3s; }
+.boot-bottom { margin: auto 0 0; padding-top: 35px; font-size: 12px; color: var(--muted-foreground); text-align: center; }
+.login-screen { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; }
+.desktop-header { display: flex; justify-content: space-between; padding: 22px 28px; font-size: 14px; border-bottom: 1px solid var(--border); }
+.desktop-watermark { position: absolute; right: 9%; top: 23%; width: 34%; text-align: center; pointer-events: none; color: var(--muted-foreground); }
+.desktop-watermark img { width: 290px; max-width: 80%; margin: auto; opacity: .14; }
+.desktop-watermark h1 { font-size: 42px; margin-top: 12px; opacity: .4; }
+.desktop-watermark p { font-size: 12px; opacity: .4; }
+.desktop-watermark > span { display: block; margin-top: 32px; font-size: 12px; opacity: .3; }
+.desktop-files { position: relative; padding: 38px 28px; width: 58%; }
+.desktop-section-label { color: var(--muted-foreground); font-size: 12px; border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 24px; }
+.desktop-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px 14px; }
+.desktop-icon { flex-direction: column; height: 132px; padding: 10px 4px; white-space: normal; border-radius: 2px; font-size: 15px; gap: 10px; text-align: center; font-weight: normal; }
+.desktop-icon small { color: var(--muted-foreground); font-size: 10px; }
+.desktop-icon .file-icon { width: 44px; height: 44px; stroke-width: 1; color: var(--foreground); }
+.desktop-icon.locked { opacity: .45; }
+.case-symbol { height: 52px; width: 52px; font-size: 60px; line-height: 42px; position: relative; }
+.case-symbol span { position: absolute; inset: 0; font-size: 12px; display: grid; place-items: center; }
+.desktop-status { position: absolute; bottom: 92px; right: 28px; text-align: right; font-size: 12px; line-height: 1.8; color: var(--muted-foreground); }
+.taskbar { position: absolute; bottom: 0; left: 0; right: 0; height: 58px; border-top: 1px solid var(--border); background: var(--card); display: flex; align-items: center; padding: 8px 20px; gap: 16px; z-index: 200; }
+.start-button { font-size: 17px; border-right: 1px solid var(--border); border-radius: 0; padding-right: 20px; }
+.start-button img { width: 32px; height: 32px; }
+.taskbar-windows { display: flex; gap: 4px; overflow: auto; }
+.taskbar-windows > * { font-size: 12px; }
+.start-menu { position: absolute; bottom: 66px; left: 16px; padding: 20px; width: 300px; border: 1px solid var(--border); background: var(--card); z-index: 210; box-shadow: var(--shadow-window); }
+.desktop-notice { position: absolute; bottom: 72px; left: 28px; background: var(--card); border: 1px solid var(--border); display: flex; align-items: center; padding: 4px 12px; max-width: calc(100% - 56px); z-index: 220; }
+.system-window:focus-visible { outline: 1px solid var(--ring); }
+.system-window header button { width: 24px; height: 24px; border-radius: 0; }
+.motion-off *, .motion-off::before, .motion-off::after { animation: none !important; transition: none !important; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+@media (max-width: 700px) {
+  .desktop-header { padding: 14px 16px; }.desktop-header > span { display: none; }.desktop-header div span + span { font-size: 11px; }
+  .desktop-files { width: 100%; padding: 24px 14px 100px; max-height: calc(100dvh - 105px); overflow-y: auto; }
+  .desktop-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 18px; }.desktop-watermark { right: 0; top: 20%; width: 100%; opacity: .3; }
+  .desktop-status { display: none; }.taskbar { padding: 8px; gap: 4px; }.taskbar-windows { max-width: 38%; }
+  .system-window { left: 0 !important; top: 0 !important; width: 100% !important; height: calc(100dvh - 58px) !important; }.system-window header { cursor: default; }.system-window header > span:first-child { font-size: 14px; }.system-window header > span:nth-child(2) { display: none; }
+  .boot-screen { padding: 24px 20px; }.boot-top { font-size: 10px; }.boot-logo { width: 100%; }.boot-terminal { font-size: 15px; }
+}
