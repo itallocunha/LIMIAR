@@ -8,4 +8,4 @@
 - [ ] 6. O COPO NÃO PAROU e Arquivo LIMIAR com placeholders.
 - [ ] 7. Som, efeitos, acessibilidade e revisão em celular.
 
-Entrega sequencial: etapa 1 pronta para revisão; etapas 2 a 7 aguardam revisão do usuário, conforme a entrega em etapas solicitada.
+Entrega atual: etapas 2 e 3 em andamento, com progresso local, conclusão simples e pacote provisório do caso 001. Demais etapas permanecem fora desta entrega.

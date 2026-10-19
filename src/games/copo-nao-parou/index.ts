@@ -1,0 +1,13 @@
+import { manifest } from './manifest';
+import { copy } from './copy';
+import { emails } from './emails';
+import { messages } from './messages';
+import { evidence } from './evidence';
+import { board } from './board';
+import { map } from './map';
+import { codes } from './codes';
+import { solution } from './solution';
+import './theme.css';
+import type { GamePackage } from '../types';
+export const envelopes = ['ENV-01', 'ENV-02', 'ENV-03', 'ENV-04', 'ENV-05'].map(id => ({ id, label: '[EDITAR] ' + id }));
+export const game: GamePackage = { manifest, copy, emails, messages, evidence, board, map, codes, solution, envelopes };

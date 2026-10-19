@@ -1,0 +1,12 @@
+import { manifest } from './manifest';
+import { copy } from './copy';
+import { emails } from './emails';
+import { messages } from './messages';
+import { evidence } from './evidence';
+import { board } from './board';
+import { map } from './map';
+import { codes } from './codes';
+import { solution } from './solution';
+import './theme.css';
+import type { GamePackage } from '../types';
+export const game: GamePackage = { manifest, copy, emails, messages, evidence, board, map, codes, solution };
