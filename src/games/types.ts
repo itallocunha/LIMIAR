@@ -1,0 +1,13 @@
+export type ModuleId = 'mail' | 'chat' | 'evidence' | 'board' | 'symbols' | 'conclusion';
+export type Manifest = { id: string; caseNumber: number; title: string; status: 'installed' | 'preparing' | 'classified'; statusLabel: string; notice?: string; theme: string; modules: ModuleId[] };
+export type SymbolMark = { id: string; label: string };
+export type Email = { id: string; from: string; subject: string; date: string; flag?: 'ALERTA MÁXIMO' | 'CORROMPIDO' | 'NÃO LIDO' | 'CRIPTOGRAFADO'; attachment?: string; evidenceId?: string; body: string[]; symbols?: SymbolMark[] };
+export type Message = { id: string; from: 'vitima' | 'outro'; text: string; time: string; status?: string };
+export type Thread = { id: string; contact: string; subtitle: string; messages: Message[] };
+export type Evidence = { id: string; type: 'foto' | 'audio' | 'video' | 'documento' | 'autopsia'; title: string; meta: string; desc: string[]; media?: string; symbols?: SymbolMark[]; placeholder?: string; warning?: string };
+export type Pin = { id: string; label: string; note: string; x: number; y: number; kind: string; source?: string };
+export type Board = { pins: Pin[]; links: [string, string][] };
+export type SolutionField = { label: string; options: { id: string; label: string }[]; correct: string };
+export type Solution = { provisional?: boolean; fields: Record<'who' | 'how' | 'why', SolutionField> };
+export type GameCopy = { operator: string; caseId: string; bootLines: string[]; signal: string; access: string; channel: string; typing?: string; animatedStatuses?: string[]; alert: string; apps: Record<ModuleId, { label: string; hint: string }> };
+export type GamePackage = { manifest: Manifest; copy: GameCopy; emails: Email[]; messages: Thread[]; evidence: Evidence[]; board: Board; map: { id: string; label: string; x: number; y: number }[]; codes: { id: string; label: string; value: string }[]; solution: Solution; envelopes?: { id: string; label: string }[] };
