@@ -1,0 +1,2 @@
+import type { Solution } from '../types';
+export const solution: Solution = { provisional: true, fields: { who: { label: 'Quem?', options: [{ id: 'pending', label: '[EDITAR] Responsável a definir' }], correct: 'pending' }, how: { label: 'Como?', options: [{ id: 'pending', label: '[EDITAR] Método a definir' }], correct: 'pending' }, why: { label: 'Por quê?', options: [{ id: 'pending', label: '[EDITAR] Motivação a definir' }], correct: 'pending' } } };
