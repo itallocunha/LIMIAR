@@ -9,6 +9,7 @@
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
 
-- The system shell lives in src/system and the preserved legacy case stays isolated in src/game until the staged registry migration, so system changes cannot overwrite the demo.
+- The system shell lives in src/system; src/games/registry.ts supplies typed content packages and src/investigation renders them without case-specific imports, so adding a case changes only its package and registry entry.
+- Each game package owns its manifest, copy, scoped theme, content and separate solution; keep narrative and translated labels outside investigation components to preserve reusable modules.
 - Identification is a fictional local agent name, not account authentication; persist only on this device as required by the static prototype.
-- Store shared terminal preferences under limiar:settings and future per-case progress under limiar:game: so clearing cases preserves identity and preferences.
+- Store shared preferences under limiar:settings and per-case progress under limiar:game:<id>:progress with guarded storage access, so clearing cases preserves identity and preferences.

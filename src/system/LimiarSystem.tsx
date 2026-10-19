@@ -2,7 +2,9 @@ import { useEffect, useState } from 'react';
 import { LockKeyhole, FolderArchive, Settings as SettingsIcon, Shield, ArrowRight, Volume2, VolumeX, ChevronRight, LogOut, X, CircleAlert } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Window } from '@/game/Window';
-import { LegacyCase } from '@/game/LegacyCase';
+import { CaseDesktop } from '@/investigation/CaseDesktop';
+import { games } from '@/games/registry';
+import type { GamePackage } from '@/games/types';
 import emblem from '@/assets/limiar-emblema.png.asset.json';
 import logo from '@/assets/limiar-logo-nome.png.asset.json';
 import { clearCaseProgress, defaultSettings, motionEnabled, type Settings } from './settings';
@@ -21,6 +23,7 @@ export function LimiarSystem() {
   const [clock, setClock] = useState('--:--');
   const [notice, setNotice] = useState('');
   const [sound, setSound] = useState(false);
+  const [activeGame, setActiveGame] = useState<GamePackage>();
   useEffect(() => {
     try {
       setAgent(localStorage.getItem('limiar:agent') ?? '');
@@ -59,7 +62,7 @@ export function LimiarSystem() {
     tone.onended = () => { void context.close(); };
   };
   const effects = motionEnabled(settings);
-  if (screen === 'case') return <div className="relative"><LegacyCase /><Button className="fixed right-4 top-12 z-[500]" variant="secondary" onClick={() => setScreen('desktop')}><LogOut /> Sair do caso</Button></div>;
+  if (screen === 'case' && activeGame) return <CaseDesktop key={activeGame.manifest.id} game={activeGame} effects={effects} onExit={() => setScreen('desktop')} />;
   return <main className={`limiar-screen ${effects ? 'scanlines vignette crt-flicker' : 'motion-off'}`}>
     {screen === 'boot' && <div className="boot-screen">
       <div className="boot-top"><span>LIMIAR / NÚCLEO INTERNO</span><span>INICIALIZAÇÃO SEGURA</span></div>
@@ -73,9 +76,7 @@ export function LimiarSystem() {
       <header className="desktop-header"><div><span className="text-foreground">LIMIAR</span><span className="ml-4 text-muted-foreground">TERMINAL DE INVESTIGAÇÃO</span></div><span className="text-muted-foreground">SESSÃO LOCAL <span className="ml-3 text-destructive">●</span></span></header>
       <div className="desktop-watermark"><img src={emblem.url} alt="" /><h1>SISTEMA LIMIAR</h1><p>NÚCLEO DE INVESTIGAÇÃO DE FENÔMENOS ANÔMALOS</p><span>O QUE ESTÁ DO OUTRO LADO NÃO DEVE ATRAVESSAR.</span></div>
       <section className="desktop-files" aria-label="Área de trabalho"><p className="desktop-section-label">CASOS / ACESSO NÍVEL 01</p><div className="desktop-grid">
-        <Button variant="ghost" className="desktop-icon" onDoubleClick={() => open('denied')} onClick={() => setNotice('Caso 001 em preparação. Disponível na etapa 6.')}><div className="case-symbol">◯<span>001</span></div><span>O COPO NÃO PAROU</span><small>CASO 001 / EM PREPARAÇÃO</small></Button>
-        <Button variant="ghost" className="desktop-icon" onDoubleClick={() => setScreen('case')} onKeyDown={e => { if (e.key === 'Enter') setScreen('case'); }} onClick={() => setNotice('PROTOCOLO VÉU selecionado')}><FolderArchive className="file-icon" /><span>PROTOCOLO VÉU</span><small>DEMONSTRAÇÃO / INSTALADO</small></Button>
-        {[2, 3].map(n => <Button key={n} variant="ghost" className="desktop-icon locked" onClick={() => open('denied')}><LockKeyhole className="file-icon" /><span>CASO 00{n} ▒▒▒▒▒▒</span><small>CLASSIFICADO</small></Button>)}
+        {games.map(game => { const m = game.manifest; const launch = () => { if (m.status === 'classified') open('denied'); else if (m.status === 'preparing') setNotice(m.notice ?? m.statusLabel); else { setActiveGame(game); setScreen('case'); } }; return <Button key={m.id} variant="ghost" className={`desktop-icon ${m.status === 'classified' ? 'locked' : ''}`} onDoubleClick={launch} onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); launch(); } }} onClick={() => m.status === 'installed' ? setNotice(`${m.title} selecionado`) : launch()}>{m.status === 'classified' ? <LockKeyhole className="file-icon" /> : m.status === 'preparing' ? <div className="case-symbol">◯<span>{String(m.caseNumber).padStart(3, '0')}</span></div> : <FolderArchive className="file-icon" />}<span>{m.title}</span><small>{m.statusLabel}</small></Button>; })}
       </div><p className="desktop-section-label mt-10">ARQUIVOS DO SISTEMA</p><div className="desktop-grid">{(['archive', 'about', 'settings'] as Panel[]).map(p => <Button key={p} variant="ghost" className="desktop-icon" onClick={() => open(p)}>{p === 'settings' ? <SettingsIcon className="file-icon" /> : p === 'about' ? <img src={emblem.url} alt="" className="h-14 w-14" /> : <FolderArchive className="file-icon" />}<span>{panels[p]}</span><small>{p === 'archive' ? 'DOCUMENTOS INSTITUCIONAIS' : p === 'about' ? 'NÚCLEO / INFORMAÇÕES' : 'PREFERÊNCIAS LOCAIS'}</small></Button>)}</div></section>
       <div className="desktop-status"><p>AGENTE: {agent.toUpperCase()}</p><p>CONEXÃO EXTERNA: INATIVA</p><p className="text-destructive">ARQUIVOS OCULTOS: ███</p></div>
       {notice && <div role="status" className="desktop-notice">{notice}<Button aria-label="Fechar aviso" variant="ghost" size="icon" onClick={() => setNotice('')}><X /></Button></div>}
