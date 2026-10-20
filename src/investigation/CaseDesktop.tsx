@@ -14,7 +14,7 @@ export function CaseDesktop({ game,onExit,effects }: { game:GamePackage;onExit:(
  const [order,setOrder]=useState<ModuleId[]>(['mail']);const [clock,setClock]=useState('--:--:--');const [boot,setBoot]=useState(0);const [glitch,setGlitch]=useState(false);const [evidenceId,setEvidenceId]=useState<string>();const [emailId,setEmailId]=useState<string>();
  useEffect(()=>{try{setProgress(loadProgress(localStorage,game.manifest.id,game.board));}catch{/* Use in-memory state. */}setReady(true);},[game]);
  useEffect(()=>{if(ready)try{saveProgress(localStorage,game.manifest.id,progress);}catch{/* Storage can be denied. */}},[progress,ready,game]);
- useEffect(()=>{const t=setInterval(()=>setClock(effects&&Math.random()<.12?'04:04:04':new Date().toLocaleTimeString('pt-BR',{hour12:false})),1000);return()=>clearInterval(t);},[effects]);
+ useEffect(()=>{const t=setInterval(()=>setClock(effects&&game.copy.clockAnomaly&&Math.random()<.12?game.copy.clockAnomaly:new Date().toLocaleTimeString('pt-BR',{hour12:false})),1000);return()=>clearInterval(t);},[effects,game]);
  useEffect(()=>{if(boot>=game.copy.bootLines.length)return;const t=setTimeout(()=>setBoot(b=>b+1),420);return()=>clearTimeout(t);},[boot,game]);
  useEffect(()=>{if(!effects)return;let timeout:ReturnType<typeof setTimeout>;const t=setInterval(()=>{setGlitch(true);timeout=setTimeout(()=>setGlitch(false),180);},7000);return()=>{clearInterval(t);clearTimeout(timeout);};},[effects]);
  const focus=(id:ModuleId)=>setOrder(o=>[...o.filter(x=>x!==id),id]);
