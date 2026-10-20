@@ -28,7 +28,7 @@ A solução fica exclusivamente em `solution.ts`, com campos `who`, `how`, `why`
 - `src/games/protocolo-veu/{index,manifest,copy,emails,messages,evidence,board,map,codes,solution}.ts` e `theme.css`.
 - `src/games/copo-nao-parou/{index,manifest,copy,emails,messages,evidence,board,map,codes,solution}.ts` e `theme.css`.
 - `src/games/classified/index.ts`.
-- `src/investigation/{CaseDesktop,Modules}.tsx`, `{copy,progress,progress.test}.ts` e `styles.css`.
+- `src/investigation/{CaseDesktop,Modules}.tsx`, `{copy,progress}.ts`, `progress.test.mjs` e `styles.css`.
 
 ## Provisório
 
