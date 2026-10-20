@@ -9,5 +9,5 @@ export type Pin = { id: string; label: string; note: string; x: number; y: numbe
 export type Board = { pins: Pin[]; links: [string, string][] };
 export type SolutionField = { label: string; options: { id: string; label: string }[]; correct: string };
 export type Solution = { provisional?: boolean; fields: Record<'who' | 'how' | 'why', SolutionField> };
-export type GameCopy = { operator: string; caseId: string; bootLines: string[]; signal: string; access: string; channel: string; typing?: string; animatedStatuses?: string[]; alert: string; apps: Record<ModuleId, { label: string; hint: string }> };
+export type GameCopy = { operator: string; caseId: string; bootLines: string[]; signal: string; access: string; channel: string; typing?: string; clockAnomaly?: string; animatedStatuses?: string[]; alert: string; apps: Record<ModuleId, { label: string; hint: string }> };
 export type GamePackage = { manifest: Manifest; copy: GameCopy; emails: Email[]; messages: Thread[]; evidence: Evidence[]; board: Board; map: { id: string; label: string; x: number; y: number }[]; codes: { id: string; label: string; value: string }[]; solution: Solution; envelopes?: { id: string; label: string }[] };
